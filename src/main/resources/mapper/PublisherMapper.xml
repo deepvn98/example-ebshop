@@ -6,7 +6,7 @@
         <result column="isbn" property="isbn"/>
         <result column="name" property="name"/>
     </resultMap>
-    <select id="findAll" resultMap="PublisherResultMap">
+    <select id="findAllPublisher" resultMap="PublisherResultMap">
         SELECT *
         FROM publisher
     </select>
@@ -16,8 +16,16 @@
     </select>
 
 
-    <insert id="insert" parameterType="com.example.ebshop.model.Publisher" >
+    <insert id="insertPublisher" parameterType="com.example.ebshop.model.Publisher" >
         INSERT INTO Publisher(isbn,name) VALUES(#{isbn},#{name })
     </insert>
+
+    <update id="updatePublisher">
+        UPDATE
+        Students SET
+        <if test="student.name!=null">name=#{student.name},</if>
+        <if test="student.email!=null">email=#{student.email}</if>
+        WHERE studId=#{id}
+    </update>
 
 </mapper>

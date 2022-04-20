@@ -20,7 +20,7 @@ public class PublisherImpl implements PublisherService {
 
     @Override
     public List<Publisher> findAllPublisher() {
-        return publisherMapper.findAll();
+        return publisherMapper.findAllPublisher();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PublisherImpl implements PublisherService {
         if (publisher== null){
             newPublisher.setIsbn(publisherRequest.getIsbn());
             newPublisher.setName(publisherRequest.getName());
-            publisherMapper.insert(newPublisher);
+            publisherMapper.insertPublisher(newPublisher);
             responseData.setHttpStatus(HttpStatus.CREATED);
             responseData.setMessage("SUCCESS");
             responseData.setObject(newPublisher);

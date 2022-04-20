@@ -9,15 +9,15 @@ import java.util.List;
 public interface PublisherMapper {
     Publisher findPublisherByIsbn(String isbn);
 
-    List<Publisher> findAll();
+    List<Publisher> findAllPublisher();
 
     Publisher findById(Long id);
 
-    void insert(Publisher publisher);
+    void insertPublisher(Publisher publisher);
 
-    void update(Publisher publisher, int id);
+    void updatePublisher(Publisher publisher, int id);
 
-    void delete(Publisher id);
+    void deletePublisher(Publisher id);
 
     void insertPublisher(String isbn, String name);
 
