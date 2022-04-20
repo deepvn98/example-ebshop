@@ -97,8 +97,7 @@ public class PublisherImpl implements PublisherService {
 
     @Override
     public Publisher findPublisherByIsbn(String isbn) {
-        Publisher publisher = publisherMapper.findPublisherByIsbn(isbn);
-        return publisher;
+        return publisherMapper.findPublisherByIsbn(isbn);
     }
 
     @Override
