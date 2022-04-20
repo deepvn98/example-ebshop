@@ -6,6 +6,11 @@
         <result column="isbn" property="isbn"/>
         <result column="name" property="name"/>
     </resultMap>
+
+    <resultMap id="ListBookInPublisherResultMap" type="com.example.ebshop.model.Book">
+        <result column="name" property="name"/>
+    </resultMap>
+
     <select id="findAllPublisher" resultMap="PublisherResultMap">
         SELECT *
         FROM publisher
@@ -14,6 +19,14 @@
         SELECT *
         FROM publisher
         WHERE isbn = #{isbn}
+    </select>
+
+    <select id="findListBookInPublisherByIsbn" resultMap="ListBookInPublisherResultMap">
+        SELECT book.name
+        FROM publisher
+                 join book
+                      on publisher.id = book.publisherid
+        where publisher.isbn = #{isbn};
     </select>
 
 
@@ -29,5 +42,12 @@
         <if test="publisher.name!=null">name=#{publisher.name}</if>
         WHERE isbn=#{isbn}
     </update>
+
+    <delete id="deletePublisher" parameterType="String">
+        DELETE
+        FROM Publisher
+        WHERE isbn = #{isbn}
+    </delete>
+
 
 </mapper>

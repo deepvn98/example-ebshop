@@ -1,5 +1,7 @@
 package com.example.ebshop.mapper;
 
+import com.example.ebshop.dto.response.PublisherResponse;
+import com.example.ebshop.model.Book;
 import com.example.ebshop.model.Publisher;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,8 +19,9 @@ public interface PublisherMapper {
 
     void updatePublisher(Publisher publisher, String isbn);
 
-    void deletePublisher(Publisher id);
+    void deletePublisher(String isbn);
 
-    void insertPublisher(String isbn, String name);
+    List<Book> findListBookInPublisherByIsbn(String isbn);
 
+    PublisherResponse getInformationPublisher(String isbn);
 }

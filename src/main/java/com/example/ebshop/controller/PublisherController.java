@@ -39,6 +39,10 @@ public class PublisherController {
     public ResponseData updatePublisher(@RequestBody PublisherRequest publisherRequest, @PathVariable String isbn){
         return publisherService.updatePublisher(publisherRequest,isbn);
     }
+    @GetMapping("/delete/{isbn}")
+    public ResponseData deletePublish(@PathVariable String isbn){
+        return publisherService.deletePublisher(isbn);
+    }
 
 
 }
