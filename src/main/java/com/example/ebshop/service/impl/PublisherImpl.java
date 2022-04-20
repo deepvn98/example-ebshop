@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class PublisherImpl implements PublisherService {
     @Autowired
@@ -42,7 +43,7 @@ public class PublisherImpl implements PublisherService {
             e.printStackTrace();
         }
         Publisher publisher = findPublisherByIsbn(publisherRequest.getIsbn());
-        if (publisher== null){
+        if (publisher == null) {
             newPublisher.setIsbn(publisherRequest.getIsbn());
             newPublisher.setName(publisherRequest.getName());
             publisherMapper.insertPublisher(newPublisher);
@@ -50,8 +51,7 @@ public class PublisherImpl implements PublisherService {
             responseData.setMessage("SUCCESS");
             responseData.setObject(newPublisher);
             responseData.setCode("200");
-        }
-        else {
+        } else {
             responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
             responseData.setMessage("Publisher have in the database!");
             responseData.setObject(null);
@@ -61,8 +61,33 @@ public class PublisherImpl implements PublisherService {
     }
 
     @Override
-    public void updatePublisher(PublisherRequest publisherRequest, int id) {
-
+    public ResponseData updatePublisher(PublisherRequest publisherRequest, String isbn) {
+        ResponseData responseData = new ResponseData();
+        try {
+            PublisherException.checkException(publisherRequest);
+        } catch (HandleException e) {
+            responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
+            responseData.setMessage(e.getMessage());
+            responseData.setObject(null);
+            responseData.setCode(e.getCode());
+            e.printStackTrace();
+        }
+        Publisher publisherInData = findPublisherByIsbn(isbn);
+        if (publisherInData == null) {
+            responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
+            responseData.setMessage("Publisher dont have in the Database!");
+            responseData.setObject("");
+            responseData.setCode("404");
+        }else {
+            publisherInData.setIsbn(publisherRequest.getIsbn());
+            publisherInData.setName(publisherRequest.getName());
+            publisherMapper.updatePublisher(publisherInData,isbn);
+            responseData.setHttpStatus(HttpStatus.OK);
+            responseData.setMessage("SUCCESS");
+            responseData.setObject(publisherInData);
+            responseData.setCode("200");
+        }
+        return responseData;
     }
 
     @Override
@@ -72,7 +97,7 @@ public class PublisherImpl implements PublisherService {
 
     @Override
     public Publisher findPublisherByIsbn(String isbn) {
-         Publisher publisher = publisherMapper.findPublisherByIsbn(isbn);
+        Publisher publisher = publisherMapper.findPublisherByIsbn(isbn);
         return publisher;
     }
 
@@ -80,14 +105,13 @@ public class PublisherImpl implements PublisherService {
     public void insert(String isbn, String name) {
         ResponseData responseData = new ResponseData();
         Publisher publisher = findPublisherByIsbn(isbn);
-        if (publisher == null){
-            publisherMapper.insertPublisher(isbn,name);
+        if (publisher == null) {
+            publisherMapper.insertPublisher(isbn, name);
             responseData.setHttpStatus(HttpStatus.CREATED);
             responseData.setMessage("SUCCESS");
-            responseData.setObject(new Publisher(isbn,name));
+            responseData.setObject(new Publisher(isbn, name));
             responseData.setCode("200");
-        }
-        else {
+        } else {
             responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
             responseData.setMessage("Publisher have in the database!");
             responseData.setObject(null);

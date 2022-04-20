@@ -15,7 +15,7 @@ public interface PublisherMapper {
 
     void insertPublisher(Publisher publisher);
 
-    void updatePublisher(Publisher publisher, int id);
+    void updatePublisher(Publisher publisher, String isbn);
 
     void deletePublisher(Publisher id);
 

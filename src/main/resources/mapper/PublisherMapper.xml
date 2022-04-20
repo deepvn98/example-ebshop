@@ -10,22 +10,24 @@
         SELECT *
         FROM publisher
     </select>
-    <select id="findPublisherByIsbn"  resultMap="PublisherResultMap">
+    <select id="findPublisherByIsbn" resultMap="PublisherResultMap">
         SELECT *
-        FROM publisher WHERE isbn = #{isbn}
+        FROM publisher
+        WHERE isbn = #{isbn}
     </select>
 
 
-    <insert id="insertPublisher" parameterType="com.example.ebshop.model.Publisher" >
-        INSERT INTO Publisher(isbn,name) VALUES(#{isbn},#{name })
+    <insert id="insertPublisher" parameterType="com.example.ebshop.model.Publisher">
+        INSERT INTO Publisher(isbn, name)
+        VALUES (#{isbn}, #{name })
     </insert>
 
     <update id="updatePublisher">
         UPDATE
-        Students SET
-        <if test="student.name!=null">name=#{student.name},</if>
-        <if test="student.email!=null">email=#{student.email}</if>
-        WHERE studId=#{id}
+        Publisher SET
+        <if test="publisher.isbn!=null">isbn=#{publisher.isbn},</if>
+        <if test="publisher.name!=null">name=#{publisher.name}</if>
+        WHERE isbn=#{isbn}
     </update>
 
 </mapper>

@@ -13,7 +13,7 @@ public interface PublisherService {
 
     ResponseData insertPublisher(PublisherRequest publisherRequest);
 
-    void updatePublisher(PublisherRequest publisherRequest, int id);
+    ResponseData updatePublisher(PublisherRequest publisherRequest, String isbn);
 
     void deletePublisher(Long id);
 

@@ -35,5 +35,10 @@ public class PublisherController {
         return new ResponseEntity<>(publishers, HttpStatus.OK);
     }
 
+    @PostMapping("/update/{isbn}")
+    public ResponseData updatePublisher(@RequestBody PublisherRequest publisherRequest, @PathVariable String isbn){
+        return publisherService.updatePublisher(publisherRequest,isbn);
+    }
+
 
 }
