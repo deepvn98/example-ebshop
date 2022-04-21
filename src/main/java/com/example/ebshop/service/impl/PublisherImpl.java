@@ -120,8 +120,29 @@ public class PublisherImpl implements PublisherService {
     }
 
     @Override
-    public PublisherResponse getInformationPublisher(String isbn) {
-        return null;
+    public ResponseData getInformationPublisher(String isbn) {
+        PublisherResponse publisherResponse = new PublisherResponse();
+        ResponseData responseData = new ResponseData();
+        Publisher publisherInData = findPublisherByIsbn(isbn);
+        if (publisherInData == null) {
+            responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
+            responseData.setMessage("Not Found Publisher in the Database!");
+            responseData.setObject("");
+            responseData.setCode("404");
+        } else {
+            List<Book> bookList = publisherMapper.findListBookInPublisherByIsbn(isbn);
+            List<Book> list = publisherMapper.topBookList(isbn);
+            publisherResponse.setIsbn(publisherInData.getIsbn());
+            publisherResponse.setName(publisherInData.getName());
+            publisherResponse.setBookList(list);
+            publisherResponse.setQuantityBook(bookList.size());
+            responseData.setHttpStatus(HttpStatus.OK);
+            responseData.setMessage("SUCCESS!");
+            responseData.setObject(publisherResponse);
+            responseData.setCode("200");
+        }
+
+        return responseData;
     }
 
     @Override

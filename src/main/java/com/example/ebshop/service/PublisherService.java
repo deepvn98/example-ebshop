@@ -19,7 +19,7 @@ public interface PublisherService {
 
     ResponseData deletePublisher(String isbn);
 
-    PublisherResponse getInformationPublisher(String isbn);
+    ResponseData getInformationPublisher(String isbn);
 
     Publisher findPublisherByIsbn(String isbn);
 

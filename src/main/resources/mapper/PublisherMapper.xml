@@ -7,7 +7,7 @@
         <result column="name" property="name"/>
     </resultMap>
 
-    <resultMap id="ListBookInPublisherResultMap" type="com.example.ebshop.model.Book">
+    <resultMap id="ListBookInPublisherResultMap" type="com.example.ebshop.dto.request.ListElement">
         <result column="name" property="name"/>
     </resultMap>
 
@@ -27,6 +27,16 @@
                  join book
                       on publisher.id = book.publisherid
         where publisher.isbn = #{isbn};
+    </select>
+
+    <select id="topBookList" resultMap="ListBookInPublisherResultMap">
+        select book.name
+        from publisher
+                 join book on publisher.id = book.publisherid
+                 join oderdetail on oderdetail.bookid = book.id
+        where publisher.isbn = #{isbn}
+        group by book.name
+        order by count(book.name) desc limit 5;
     </select>
 
 

@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class PublisherResponse {
-    private Long id;
     private String isbn;
     private String name;
     List<Book> bookList;

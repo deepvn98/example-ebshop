@@ -18,10 +18,15 @@ public class PublisherController {
     @Autowired
     private PublisherService publisherService;
 
-    @GetMapping("/getall")
+    @GetMapping("/get-all")
     public ResponseEntity<?> getAllPublisher() {
         List<Publisher> publishers = publisherService.findAllPublisher();
         return new ResponseEntity<>(publishers, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-information/{isbn}")
+    public ResponseData getInformationPublisher(@PathVariable String isbn){
+        return publisherService.getInformationPublisher(isbn);
     }
 
     @PostMapping("/insert")
@@ -29,7 +34,7 @@ public class PublisherController {
         return publisherService.insertPublisher(publisherRequest);
     }
 
-    @PostMapping("/getbyisbn")
+    @PostMapping("/get-by-isbn")
     public ResponseEntity<?> getPublisherByIsbn(@RequestBody PublisherRequest publisherRequest) {
         Publisher publishers = publisherService.findPublisherByIsbn(publisherRequest.getIsbn());
         return new ResponseEntity<>(publishers, HttpStatus.OK);
@@ -43,6 +48,7 @@ public class PublisherController {
     public ResponseData deletePublish(@PathVariable String isbn){
         return publisherService.deletePublisher(isbn);
     }
+
 
 
 }

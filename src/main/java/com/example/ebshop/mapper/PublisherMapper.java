@@ -23,5 +23,5 @@ public interface PublisherMapper {
 
     List<Book> findListBookInPublisherByIsbn(String isbn);
 
-    PublisherResponse getInformationPublisher(String isbn);
+    List<Book> topBookList(String isbn);
 }
