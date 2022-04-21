@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.ebshop.mapper.AuthorMapper">
+    <resultMap id="AuthorResultMap" type="com.example.ebshop.model.Author">
+        <id column="id" property="id"/>
+        <result column="isbn" property="isbn"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <resultMap id="ListBookInAuthorResultMap" type="com.example.ebshop.dto.request.ListElement">
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <select id="findAllAuthor" resultMap="AuthorResultMap">
+        SELECT *
+        FROM author
+    </select>
+
+    <select id="findAuthorByIsbn" resultMap="AuthorResultMap">
+        SELECT *
+        FROM author
+        WHERE isbn = #{isbn}
+    </select>
+
+    <select id="findListBookInAuthorByIsbn" resultMap="ListBookInAuthorResultMap">
+        select book.name
+        from author
+                 join book_author on author.id = book_author.authorid
+                 join book on book.id = book_author.bookid
+        where author.isbn = #{isbn};
+    </select>
+
+    <insert id="insertAuthor" parameterType="com.example.ebshop.model.Author">
+        INSERT INTO Author(isbn, name)
+        VALUES (#{isbn}, #{name })
+    </insert>
+
+    <update id="updateAuthor">
+        UPDATE
+        Author SET
+        <if test="author.isbn!=null">isbn=#{author.isbn},</if>
+        <if test="author.name!=null">name=#{author.name}</if>
+        WHERE isbn=#{isbn}
+    </update>
+
+    <delete id="deleteAuthor" parameterType="String">
+        DELETE
+        FROM Author
+        WHERE isbn = #{isbn}
+    </delete>
+
+
+</mapper>

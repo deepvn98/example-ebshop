@@ -95,7 +95,6 @@ public class PublisherImpl implements PublisherService {
     @Override
     public ResponseData deletePublisher(String isbn) {
         ResponseData responseData = new ResponseData();
-        PublisherResponse publisherResponse = new PublisherResponse();
         Publisher publisherInData = findPublisherByIsbn(isbn);
         if (publisherInData == null) {
             responseData.setHttpStatus(HttpStatus.BAD_REQUEST);

@@ -34,17 +34,17 @@ public class PublisherController {
         return publisherService.insertPublisher(publisherRequest);
     }
 
-    @PostMapping("/get-by-isbn")
+    @GetMapping("/get-by-isbn")
     public ResponseEntity<?> getPublisherByIsbn(@RequestBody PublisherRequest publisherRequest) {
         Publisher publishers = publisherService.findPublisherByIsbn(publisherRequest.getIsbn());
         return new ResponseEntity<>(publishers, HttpStatus.OK);
     }
 
-    @PostMapping("/update/{isbn}")
+    @PutMapping ("/update/{isbn}")
     public ResponseData updatePublisher(@RequestBody PublisherRequest publisherRequest, @PathVariable String isbn){
         return publisherService.updatePublisher(publisherRequest,isbn);
     }
-    @GetMapping("/delete/{isbn}")
+    @DeleteMapping("/delete/{isbn}")
     public ResponseData deletePublish(@PathVariable String isbn){
         return publisherService.deletePublisher(isbn);
     }
