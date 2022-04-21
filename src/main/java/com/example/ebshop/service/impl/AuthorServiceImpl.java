@@ -121,7 +121,28 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public ResponseData getInformationAuthor(String isbn) {
-        return null;
+        PublisherResponse publisherResponse = new PublisherResponse();
+        ResponseData responseData = new ResponseData();
+        Author authorInData = findAuthorByIsbn(isbn);
+        if (authorInData == null) {
+            responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
+            responseData.setMessage("Not Found Author in the Database!");
+            responseData.setObject("");
+            responseData.setCode("404");
+        } else {
+            List<Book> bookList = authorMapper.findListBookInAuthorByIsbn(isbn);
+            List<Book> list = authorMapper.topBookList(isbn);
+            publisherResponse.setIsbn(authorInData.getIsbn());
+            publisherResponse.setName(authorInData.getName());
+            publisherResponse.setBookList(list);
+            publisherResponse.setQuantityBook(bookList.size());
+            responseData.setHttpStatus(HttpStatus.OK);
+            responseData.setMessage("SUCCESS!");
+            responseData.setObject(publisherResponse);
+            responseData.setCode("200");
+        }
+
+        return responseData;
     }
 
     @Override

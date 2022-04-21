@@ -27,5 +27,10 @@ public class AuthorController {
         return authorService.deleteAuthor(isbn);
     }
 
+    @GetMapping("/get-information/{isbn}")
+    public ResponseData getInformationAuthor(@PathVariable String isbn){
+        return authorService.getInformationAuthor(isbn);
+    }
+
 
 }

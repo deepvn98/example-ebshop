@@ -26,7 +26,7 @@
         FROM publisher
                  join book
                       on publisher.id = book.publisherid
-        where publisher.isbn = #{isbn};
+        where publisher.isbn = #{isbn}
     </select>
 
     <select id="topBookList" resultMap="ListBookInPublisherResultMap">
@@ -36,7 +36,7 @@
                  join oderdetail on oderdetail.bookid = book.id
         where publisher.isbn = #{isbn}
         group by book.name
-        order by count(book.name) desc limit 5;
+        order by sum(oderdetail.quantity) desc limit 5
     </select>
 
 

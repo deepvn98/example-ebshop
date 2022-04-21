@@ -27,7 +27,18 @@
         from author
                  join book_author on author.id = book_author.authorid
                  join book on book.id = book_author.bookid
-        where author.isbn = #{isbn};
+        where author.isbn = #{isbn}
+    </select>
+
+    <select id="topBookList" resultMap="ListBookInAuthorResultMap" parameterType="String">
+        select book.name as name
+        from author
+                 join book_author on author.id = book_author.authorid
+                 join book on book.id = book_author.bookid
+                 join oderdetail on oderdetail.bookid = book.id
+        where author.isbn = #{isbn}
+        group by name
+        order by sum(oderdetail.quantity) desc limit 3
     </select>
 
     <insert id="insertAuthor" parameterType="com.example.ebshop.model.Author">
