@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Author {
-    private Long id;
+    private int id;
     private String isbn;
     private String name;
 }

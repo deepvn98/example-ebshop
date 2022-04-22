@@ -1,15 +1,18 @@
 package com.example.ebshop.service.impl;
 
 import com.example.ebshop.common.ResponseData;
+import com.example.ebshop.dto.request.AuthorRequest;
 import com.example.ebshop.dto.request.BookRequest;
 import com.example.ebshop.mapper.BookMapper;
 import com.example.ebshop.model.Author;
 import com.example.ebshop.model.Book;
 import com.example.ebshop.model.Publisher;
+import com.example.ebshop.service.AuthorService;
 import com.example.ebshop.service.BookService;
 import com.example.ebshop.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
@@ -17,6 +20,8 @@ public class BookServiceImpl implements BookService {
     private BookMapper bookMapper;
     @Autowired
     private PublisherService publisherService;
+    @Autowired
+    private AuthorService authorService;
 
     @Override
     public Book findBookByIsbn(String isbn) {
@@ -24,19 +29,17 @@ public class BookServiceImpl implements BookService {
     }
 
 
-
     @Override
     public ResponseData insertBook(BookRequest bookRequest) {
         ResponseData responseData = new ResponseData();
-        // Check authorList xem co author moi thi tao moi author
-        List<Author> authorList = bookRequest.getAuthorList();
-       if (checkCreateBook(bookRequest)){
+        List<Integer> idAuthorList = getIdAuthor(bookRequest);
+        if (checkCreateBook(bookRequest)) {
 
-           //insert thong tin vao bang trung gian
-       }else {
-           //Xoa thong tin bang trung gian co isbn cua book
-           //Sau do insert lai thong tin vao bang trung gian
-       }
+            //insert thong tin vao bang trung gian
+        } else {
+            //Xoa thong tin bang trung gian co isbn cua book
+            //Sau do insert lai thong tin vao bang trung gian
+        }
         return responseData;
     }
 
@@ -46,7 +49,7 @@ public class BookServiceImpl implements BookService {
         Book book = new Book();
         Book bookInData = findBookByIsbn(bookRequest.getIsbn());
         int idPublisher = checkPublisherInBook(bookRequest);
-        if (bookInData == null){
+        if (bookInData == null) {
             book.setIsbn(bookRequest.getIsbn());
             book.setName(bookRequest.getName());
             book.setPrice(bookRequest.getPrice());
@@ -55,8 +58,8 @@ public class BookServiceImpl implements BookService {
             book.setPublisher(idPublisher);
             bookMapper.insertBook(bookInData);
             checkCreateBook = true;
-        }else {
-            int quantityBook = bookInData.getQuantity()+bookRequest.getQuantity();
+        } else {
+            int quantityBook = bookInData.getQuantity() + bookRequest.getQuantity();
             bookInData.setIsbn(bookRequest.getIsbn());
             bookInData.setName(bookRequest.getName());
             bookInData.setPrice(bookRequest.getPrice());
@@ -68,17 +71,47 @@ public class BookServiceImpl implements BookService {
         return checkCreateBook;
     }
 
+
     @Override
     public int checkPublisherInBook(BookRequest bookRequest) {
         int idPublisher = 0;
         Publisher publisher = publisherService.findPublisherByIsbn(bookRequest.getIsbn());
-        if (publisher == null){
+        if (publisher == null) {
             publisherService.insertPublisher(bookRequest.getPublisher());
             Publisher newPublisher = publisherService.findPublisherByIsbn(bookRequest.getIsbn());
             idPublisher = newPublisher.getId();
-        }else {
+        } else {
             idPublisher = publisher.getId();
         }
         return idPublisher;
+    }
+
+    @Override
+    public List<Author> checkAuthorListInBook(BookRequest bookRequest) {
+        List<Author> authorList = bookRequest.getAuthorList();
+        AuthorRequest authorRequest = new AuthorRequest();
+        String isbn;
+        for (Author author : authorList) {
+            isbn = author.getIsbn();
+            Author authorInData = authorService.findAuthorByIsbn(isbn);
+            if (authorInData == null) {
+                authorRequest.setIsbn(author.getIsbn());
+                authorRequest.setName(author.getName());
+                authorService.insertAuthor(authorRequest);
+            }
+        }
+        return authorList;
+    }
+
+    @Override
+    public List<Integer> getIdAuthor(BookRequest bookRequest) {
+        List<Author> authorList = checkAuthorListInBook(bookRequest);
+        List<Integer> idAuthorList = new ArrayList<>();
+        int id = 0;
+        for (int i = 0; i < authorList.size(); i++) {
+            id = authorList.get(i).getId();
+            idAuthorList.add(id);
+        }
+        return idAuthorList;
     }
 }
