@@ -3,7 +3,6 @@ package com.example.ebshop.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 @Data
 @NoArgsConstructor
 public class Book {
@@ -13,7 +12,6 @@ public class Book {
     private double price;
     private int quantity;
     private Boolean status;
-    private List<Author>authorList;
-    private Publisher publisher;
+    private int publisher;
 
 }

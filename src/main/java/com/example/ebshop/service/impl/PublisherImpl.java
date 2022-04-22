@@ -37,13 +37,6 @@ public class PublisherImpl implements PublisherService {
         Publisher newPublisher = new Publisher();
         try {
             PublisherException.checkException(publisherRequest);
-        } catch (HandleException e) {
-            responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
-            responseData.setMessage(e.getMessage());
-            responseData.setObject(null);
-            responseData.setCode(e.getCode());
-            e.printStackTrace();
-        }
         Publisher publisher = findPublisherByIsbn(publisherRequest.getIsbn());
         if (publisher == null) {
             newPublisher.setIsbn(publisherRequest.getIsbn());
@@ -59,6 +52,13 @@ public class PublisherImpl implements PublisherService {
             responseData.setObject(null);
             responseData.setCode("400");
         }
+        } catch (HandleException e) {
+            responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
+            responseData.setMessage(e.getMessage());
+            responseData.setObject(null);
+            responseData.setCode(e.getCode());
+            e.printStackTrace();
+        }
         return responseData;
     }
 
@@ -67,13 +67,6 @@ public class PublisherImpl implements PublisherService {
         ResponseData responseData = new ResponseData();
         try {
             PublisherException.checkException(publisherRequest);
-        } catch (HandleException e) {
-            responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
-            responseData.setMessage(e.getMessage());
-            responseData.setObject(null);
-            responseData.setCode(e.getCode());
-            e.printStackTrace();
-        }
         Publisher publisherInData = findPublisherByIsbn(isbn);
         if (publisherInData == null) {
             responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
@@ -88,6 +81,13 @@ public class PublisherImpl implements PublisherService {
             responseData.setMessage("SUCCESS");
             responseData.setObject(publisherInData);
             responseData.setCode("200");
+        }
+        } catch (HandleException e) {
+            responseData.setHttpStatus(HttpStatus.BAD_REQUEST);
+            responseData.setMessage(e.getMessage());
+            responseData.setObject(null);
+            responseData.setCode(e.getCode());
+            e.printStackTrace();
         }
         return responseData;
     }

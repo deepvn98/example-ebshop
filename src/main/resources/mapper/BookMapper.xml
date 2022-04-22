@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.ebshop.mapper.BookMapper">
+
+    <resultMap id="BookResultMap" type="com.example.ebshop.dto.request.BookRequest">
+        <result column="isbn" property="isbn"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="quantity" property="quantity"/>
+        <result column="publisherid" property="publisher"/>
+    </resultMap>
+
+    <select id="findBookByIsbn" parameterType="String" resultMap="BookResultMap">
+        select *
+        from book
+        where book.isbn = #{isbn};
+    </select>
+
+    <insert id="insertBook" parameterType="com.example.ebshop.dto.request.BookRequest">
+        insert into book (isbn, name, price, quantity, status, publisherid)
+            value (#{isbn},#{name}, #{price}, #{quantity}, #{status},#{publisherid});
+    </insert>
+
+
+</mapper>

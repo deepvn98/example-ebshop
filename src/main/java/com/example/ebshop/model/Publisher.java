@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Publisher{
-    private Long id;
+    private int id;
     private String isbn;
     private String name;
 
@@ -15,11 +15,11 @@ public class Publisher{
         this.name = name;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
