@@ -17,7 +17,7 @@ public interface BookMapper {
 
     void deleteBookInBookAuthor(int id);
 
-    void deleteBook(int id);
+    void deleteBook(String isbn);
 
 
 }

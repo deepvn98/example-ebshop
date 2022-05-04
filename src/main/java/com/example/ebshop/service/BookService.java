@@ -23,6 +23,6 @@ public interface BookService {
 
     ResponseData updateBook(BookResponse bookInData, BookRequest bookRequest);
 
-    ResponseData deleteBook(int id);
+    ResponseData deleteBook(String isbn);
 
 }

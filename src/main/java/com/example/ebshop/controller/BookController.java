@@ -22,4 +22,9 @@ public class BookController {
         return bookService.findBookByIsbn(isbn);
     }
 
+    @PutMapping("/delete/{isbn}")
+    public ResponseData deleteBook(@PathVariable String isbn){
+        return bookService.deleteBook(isbn);
+    }
+
 }

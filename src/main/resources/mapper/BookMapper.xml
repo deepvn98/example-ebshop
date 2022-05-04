@@ -44,11 +44,11 @@
         where book.id = #{id}
     </update>
 
-    <update id="deleteBook">
+    <update id="deleteBook" parameterType="String">
         update
             book
-        set status      = true ,
-        where book.id = #{id}
+        set status      = true
+        where book.isbn = #{isbn}
     </update>
 
 </mapper>

@@ -103,10 +103,25 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseData deleteBook(int id) {
-        return null;
+    public ResponseData deleteBook(String isbn) {
+        ResponseData responseData = new ResponseData();
+        BookResponse book = findBookByIsbn(isbn);
+        if (book == null){
+            responseData.setObject("");
+            responseData.setMessage("not fount book in the database!");
+            responseData.setCode("000");
+            responseData.setHttpStatus(HttpStatus.NO_CONTENT);
+        }else {
+            bookMapper.deleteBook(isbn);
+            int idBook = book.getId();
+            bookMapper.deleteBookInBookAuthor(idBook);
+            responseData.setObject("");
+            responseData.setMessage("Delete Success!");
+            responseData.setCode("200");
+            responseData.setHttpStatus(HttpStatus.OK);
+        }
+        return responseData;
     }
-
 
     @Override
     public int getPublisherIDInBook(BookRequest bookRequest) {
