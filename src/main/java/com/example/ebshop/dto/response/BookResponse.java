@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class BookResponse {
+    private int id;
     private String isbn;
     private String name;
     private double price;

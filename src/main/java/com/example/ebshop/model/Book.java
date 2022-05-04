@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Book {
-    private Long id;
+    private int id;
     private String isbn;
     private String name;
     private double price;

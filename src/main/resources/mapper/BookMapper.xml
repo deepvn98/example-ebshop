@@ -3,6 +3,7 @@
 <mapper namespace="com.example.ebshop.mapper.BookMapper">
 
     <resultMap id="BookResultMap" type="com.example.ebshop.dto.response.BookResponse">
+        <id column="id" property="id"/>
         <result column="isbn" property="isbn"/>
         <result column="name" property="name"/>
         <result column="price" property="price"/>
@@ -10,15 +11,44 @@
     </resultMap>
 
     <select id="findBookByIsbn" parameterType="String" resultMap="BookResultMap">
-        select *
+        select book.id, book.isbn, book.name, book.price, book.quantity
         from book
-        where book.isbn = #{isbn};
+        where book.isbn = #{isbn}
     </select>
 
-    <insert id="insertBook" parameterType="com.example.ebshop.dto.request.BookRequest">
+    <insert id="insertBook" parameterType="com.example.ebshop.model.Book">
         insert into book (isbn, name, price, quantity, status, publisherid)
-            value (#{isbn},#{name}, #{price}, #{quantity}, #{status},#{publisherid});
+            value (#{isbn},#{name}, #{price}, #{quantity}, #{status},#{publisher})
     </insert>
 
+    <insert id="insertBookAuthor" parameterType="com.example.ebshop.dto.request.BookAuthorRequest">
+        insert into book_author(bookid, authorid)
+            value (#{bookId},#{authorId})
+    </insert>
+
+    <delete id="deleteBookInBookAuthor" parameterType="int">
+        delete
+        from book_author
+        where book_author.bookid = #{id};
+    </delete>
+
+    <update id="updateBook">
+        update
+            book
+        set isbn        = #{book.isbn},
+            name        = #{book.name},
+            price       = #{book.price},
+            quantity    = #{book.quantity},
+            status      = #{book.status},
+            publisherid = #{book.publisher}
+        where book.id = #{id}
+    </update>
+
+    <update id="deleteBook">
+        update
+            book
+        set status      = true ,
+        where book.id = #{id}
+    </update>
 
 </mapper>

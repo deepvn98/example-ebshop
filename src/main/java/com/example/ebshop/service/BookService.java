@@ -2,23 +2,27 @@ package com.example.ebshop.service;
 
 import com.example.ebshop.common.ResponseData;
 import com.example.ebshop.dto.request.BookRequest;
+import com.example.ebshop.dto.response.BookResponse;
 import com.example.ebshop.model.Author;
-import com.example.ebshop.model.Book;
 
 import java.util.List;
 
 public interface BookService {
 
-    Book findBookByIsbn(String isbn);
+    BookResponse findBookByIsbn(String isbn);
 
-    ResponseData insertBook(BookRequest bookRequest);
+    ResponseData insertBookInBookAuthor(BookRequest bookRequest);
 
-    boolean checkCreateBook(BookRequest bookRequest);
+    int getPublisherIDInBook(BookRequest bookRequest);
 
-    int checkPublisherInBook(BookRequest bookRequest);
-
-    List<Author> checkAuthorListInBook(BookRequest bookRequest);
+    List<Author> getAuthorListInBook(BookRequest bookRequest);
 
     List<Integer> getIdAuthor(BookRequest bookRequest);
+
+    ResponseData createBook(BookRequest bookRequest);
+
+    ResponseData updateBook(BookResponse bookInData, BookRequest bookRequest);
+
+    ResponseData deleteBook(int id);
 
 }

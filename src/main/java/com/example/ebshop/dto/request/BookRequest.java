@@ -1,7 +1,6 @@
 package com.example.ebshop.dto.request;
 
 import com.example.ebshop.model.Author;
-import com.example.ebshop.model.Publisher;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
