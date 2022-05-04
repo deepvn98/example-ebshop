@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public ResponseData insertBookInBookAuthor(BookRequest bookRequest) {
-        ResponseData responseData = new ResponseData();
+        ResponseData responseData;
         BookAuthorRequest bookAuthorRequest;
         BookResponse bookInData = findBookByIsbn(bookRequest.getIsbn());
         int bookId;
@@ -114,8 +114,9 @@ public class BookServiceImpl implements BookService {
         }else {
             bookMapper.deleteBook(isbn);
             int idBook = book.getId();
+            book.setStatus(true);
             bookMapper.deleteBookInBookAuthor(idBook);
-            responseData.setObject("");
+            responseData.setObject(book);
             responseData.setMessage("Delete Success!");
             responseData.setCode("200");
             responseData.setHttpStatus(HttpStatus.OK);
