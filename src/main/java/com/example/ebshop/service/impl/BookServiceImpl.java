@@ -4,6 +4,7 @@ import com.example.ebshop.common.ResponseData;
 import com.example.ebshop.dto.request.AuthorRequest;
 import com.example.ebshop.dto.request.BookAuthorRequest;
 import com.example.ebshop.dto.request.BookRequest;
+import com.example.ebshop.dto.request.BookSearch;
 import com.example.ebshop.dto.response.BookResponse;
 import com.example.ebshop.mapper.BookMapper;
 import com.example.ebshop.model.Author;
@@ -121,6 +122,17 @@ public class BookServiceImpl implements BookService {
             responseData.setCode("200");
             responseData.setHttpStatus(HttpStatus.OK);
         }
+        return responseData;
+    }
+
+    @Override
+    public ResponseData searchBook(BookSearch bookSearch) {
+        ResponseData responseData = new ResponseData();
+        List<Book> listBook = bookMapper.searchBook(bookSearch);
+        responseData.setObject(listBook);
+        responseData.setCode("200");
+        responseData.setMessage("ok");
+        responseData.setHttpStatus(HttpStatus.OK);
         return responseData;
     }
 

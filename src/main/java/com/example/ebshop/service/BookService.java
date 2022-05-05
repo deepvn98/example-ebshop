@@ -2,6 +2,7 @@ package com.example.ebshop.service;
 
 import com.example.ebshop.common.ResponseData;
 import com.example.ebshop.dto.request.BookRequest;
+import com.example.ebshop.dto.request.BookSearch;
 import com.example.ebshop.dto.response.BookResponse;
 import com.example.ebshop.model.Author;
 
@@ -24,5 +25,7 @@ public interface BookService {
     ResponseData updateBook(BookResponse bookInData, BookRequest bookRequest);
 
     ResponseData deleteBook(String isbn);
+
+    ResponseData searchBook(BookSearch bookSearch);
 
 }

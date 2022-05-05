@@ -16,6 +16,33 @@
         where book.isbn = #{isbn}
     </select>
 
+    <select id="searchBook" parameterType="com.example.ebshop.dto.request.BookSearch" resultMap="BookResultMap">
+        select b.id, b.isbn, b.name,b.price, b.quantity
+        from book b
+        join publisher p on b.publisherid = p.id
+        join book_author ba on ba.bookid = b.id
+        join author a on a.id = ba.authorid
+        where b.status = #{bookSearch.status}
+        <if test="bookSearch.isbn!=null">
+            and b.isbn = #{bookSearch.isbn}
+        </if>
+        <if test="bookSearch.name!=null and bookSearch.name">
+            and b.name like #{bookSearch.name}
+        </if>
+        <if test="bookSearch.authorISBN!=null">
+            and a.isbn = #{bookSearch.authorISBN}
+        </if>
+        <if test="bookSearch.publisherISBN!=null">
+            and p.isbn = #{bookSearch.publisherISBN}
+        </if>
+        <if test="bookSearch.firstPrice!=null">
+            <if test="bookSearch.lastPrice!=null">
+                and b.price between #{bookSearch.firstPrice} and #{bookSearch.lastPrice}
+            </if>
+        </if>
+        order by b.name and b.price
+    </select>
+
     <insert id="insertBook" parameterType="com.example.ebshop.model.Book">
         insert into book (isbn, name, price, quantity, status, publisherid)
             value (#{isbn},#{name}, #{price}, #{quantity}, #{status},#{publisher})
@@ -47,7 +74,7 @@
     <update id="deleteBook" parameterType="String">
         update
             book
-        set status      = true
+        set status = true
         where book.isbn = #{isbn}
     </update>
 

@@ -2,6 +2,7 @@ package com.example.ebshop.controller;
 
 import com.example.ebshop.common.ResponseData;
 import com.example.ebshop.dto.request.BookRequest;
+import com.example.ebshop.dto.request.BookSearch;
 import com.example.ebshop.dto.response.BookResponse;
 import com.example.ebshop.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class BookController {
     @PutMapping("/delete/{isbn}")
     public ResponseData deleteBook(@PathVariable String isbn){
         return bookService.deleteBook(isbn);
+    }
+
+    @GetMapping("/search")
+    public ResponseData getAllBook(@RequestBody BookSearch bookSearch){
+        return bookService.searchBook(bookSearch);
     }
 
 }
